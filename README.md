@@ -17,8 +17,8 @@ A small local web UI + Python automation to organize your Desktop files into cat
 ## Setup (fast)
 ```bash
 # clone
-git clone https://github.com/<your-username>/desktop-organizer.git
-cd desktop-organizer
+git clone https://github.com/<your-username>/lazy-automation-desktop-organizer.git
+cd lazy-automation-desktop-organizer
 
 # create venv
 python -m venv venv
