@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Desktop Organizer — UI</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Desktop Organizer</h1>
+    <p class="muted">Organize your Desktop quickly. Local only — runs on your machine.</p>
+
+    <div class="controls">
+      <button id="dryBtn">Dry Run (Preview)</button>
+      <button id="runBtn">Run Organize</button>
+      <label><input type="checkbox" id="backupChk"> Backup first</label>
+      <button id="undoBtn" class="danger">Undo</button>
+    </div>
+
+    <div id="output" class="output"></div>
+  </div>
+
+<script>
+const out = document.getElementById("output");
+function append(msg){ out.innerHTML += `<div>${msg}</div>`; out.scrollTop = out.scrollHeight; }
+
+document.getElementById("dryBtn").onclick = async () => {
+  out.innerHTML = ""; append("Fetching dry-run plan...");
+  const res = await fetch("/dry-run");
+  const data = await res.json();
+  append(`Files detected to move: ${data.count}`);
+  data.actions.slice(0,200).forEach(a => append(`${a[0]} → ${a[1]}`));
+};
+
+document.getElementById("runBtn").onclick = async () => {
+  out.innerHTML = ""; append("Running organizer...");
+  const backup = document.getElementById("backupChk").checked;
+  const res = await fetch("/run", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({backup})});
+  const data = await res.json();
+  append(`Moved files: ${data.moved_count}`);
+  data.actions.slice(0,200).forEach(a => append(`${a[0]} → ${a[1]}`));
+};
+
+document.getElementById("undoBtn").onclick = async () => {
+  if(!confirm("Are you sure you want to undo (move items back to Desktop)?")) return;
+  out.innerHTML = ""; append("Running undo...");
+  const res = await fetch("/undo", {method:"POST"});
+  const data = await res.json();
+  append("Undo finished.");
+};
+</script>
+</body>
+</html>
