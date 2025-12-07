@@ -1,0 +1,9 @@
+{
+  "projectName": "Lazy Automation Desktop Organizer",
+  "description": "Web UI + Python automation that organizes Desktop files into categorized folders with dry-run, backup, and undo features.",
+  "week": 2,
+  "challenge": "Lazy Automation",
+  "techStack": ["Python", "Flask", "HTML", "CSS"],
+  "author": "Your Name",
+  "version": "1.0.0"
+}
