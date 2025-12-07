@@ -1,4 +1,4 @@
-# lazy - automation - desktop - organizer
+# lazy-automation-desktop-organizer
 
 A small local web UI + Python automation to organize your Desktop files into categorized folders.
 
