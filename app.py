@@ -6,8 +6,6 @@ import yaml
 import os
 
 app = Flask(__name__)
-
-# Use an absolute path relative to this file to avoid CWD issues
 CONFIG_PATH = Path(__file__).parent / "config.yaml"
 
 def load_config():
@@ -27,7 +25,6 @@ def dry_run():
 
 @app.route("/run", methods=["POST"])
 def run_organize():
-    # Safely parse JSON body
     data = request.get_json(silent=True) or {}
     backup = bool(data.get("backup", False))
     desktop = dc.get_desktop_path()
@@ -37,13 +34,11 @@ def run_organize():
 
 @app.route("/undo", methods=["POST"])
 def undo():
-    # run undo script
     from undo_cleaner import undo as undo_func
     undo_func()
     return jsonify({"status": "ok"})
 
 if __name__ == "__main__":
-    # Bind to all interfaces and allow env overrides for host/port
     host = os.environ.get("HOST", "0.0.0.0")
     port = int(os.environ.get("PORT", "5000"))
     app.run(host=host, port=port, debug=True)

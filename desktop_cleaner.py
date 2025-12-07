@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-"""
-desktop_cleaner.py
-Core logic for organizing Desktop files with automatic detection of OneDrive or local Desktop.
-"""
-
 import shutil
 import logging
 from pathlib import Path
@@ -11,7 +6,6 @@ import yaml
 import os
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-
 
 def get_desktop_path() -> Path:
     """
@@ -28,7 +22,6 @@ def get_desktop_path() -> Path:
         return local_desktop
     else:
         raise FileNotFoundError("Could not locate a Desktop folder.")
-
 
 def load_config(path: Path = Path("config.yaml")) -> dict:
     if not path.exists():
@@ -101,8 +94,6 @@ def perform_organize(desk: Path, cfg: dict, backup: bool = False) -> list[tuple[
     categories = cfg.get("categories", {})
     exclude = set(cfg.get("exclude", []))
     move_hidden = cfg.get("move_hidden", False)
-
-    # Ensure category folders exist
     for category in categories.keys():
         ensure_folder(desk / category)
     ensure_folder(desk / "Others")
@@ -143,9 +134,7 @@ def perform_organize(desk: Path, cfg: dict, backup: bool = False) -> list[tuple[
 
     return actions
 
-
 if __name__ == "__main__":
-    # Example usage:
     try:
         desktop = get_desktop_path()
         cfg = load_config()
